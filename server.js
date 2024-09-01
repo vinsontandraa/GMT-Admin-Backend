@@ -12,7 +12,7 @@ const mutasiKasBankRoutes = require("./routes/mutasiKasBank");
 const mutasiKasBankListGiro = require("./routes/mutasiKasBankListGiro");
 const mutasiKasBankPiutang = require("./routes/mutasiKasPiutang");
 const dataSuratKendaraan = require("./routes/dataSuratKendaraan");
-const sparePartRoutes = require('./routes/SparePartController');
+const sparePartRoutes = require('./routes/sparePartController');
 const sparePartPORoutes = require('./routes/sparePartPO');
 
 require('dotenv').config();
