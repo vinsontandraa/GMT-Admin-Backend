@@ -15,14 +15,15 @@ const storage = multer.diskStorage({
   const upload = multer({ storage });
   
   // Route to handle POST request for Mitra creation with image upload
-  router.post('/', upload.array('images', 10), async (req, res) => {
+  router.post('/mitras', upload.array('images', 10), async (req, res) => {
     try {
       const imageFiles = req.files.map(file => file.filename);
       const mitra = new Mitra({ ...req.body, images: imageFiles });
       await mitra.save();
       res.status(201).json(mitra);
     } catch (err) {
-      res.status(400).json({ error: err.message });
+      console.error('Error creating Mitra:', err); // Log the actual error
+      res.status(500).json({ error: 'Server error while creating Mitra' });
     }
   });
 
