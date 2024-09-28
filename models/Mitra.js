@@ -19,7 +19,7 @@ const mitraSchema = new mongoose.Schema({
     namaBank: { type: String },
     noRekening: { type: String },
     namaRekening: { type: String },
-    upload: { type: [String] }, // Array of file paths for images
+    images: { type: [String] }, // Array of file paths for images
     keterangan: { type: String }
 }, { timestamps: true });
 

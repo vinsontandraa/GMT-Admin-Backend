@@ -5,30 +5,24 @@ const Mitra = require('../models/Mitra');
 
 // Multer config for image upload
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, 'uploads/'); // Directory to store uploaded files
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/');
     },
-    filename: (req, file, cb) => {
-      cb(null, Date.now() + path.extname(file.originalname)); // Create unique filename
-    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + '-' + file.originalname);
+    }
   });
-
-  const upload = multer({ storage: storage });
-
+  const upload = multer({ storage });
   
   // Route to handle POST request for Mitra creation with image upload
-  router.post('/', upload.array('upload', 5), async (req, res) => {
+  router.post('/', upload.array('images', 10), async (req, res) => {
     try {
-      // Handle the request here
-      const files = req.files; // Access the uploaded files
-      const body = req.body; // Access the other fields sent in the form
-  
-      // Your logic for saving the data to the database goes here
-      
-      res.status(200).json({ message: 'Files uploaded successfully!', files });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Error uploading files', error });
+      const imageFiles = req.files.map(file => file.filename);
+      const mitra = new Mitra({ ...req.body, images: imageFiles });
+      await mitra.save();
+      res.status(201).json(mitra);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
     }
   });
 
@@ -62,20 +56,18 @@ router.get('/', async (req, res) => {
 });
 
 // Edit mitra
-router.put('/:id', upload.array('upload', 5), async (req, res) => {
-  try {
-    const { files } = req;
-    const filePaths = files.map(file => file.path);
-    const updatedMitra = await Mitra.findByIdAndUpdate(
-      req.params.id,
-      { ...req.body, upload: filePaths },
-      { new: true }
-    );
-    res.json(updatedMitra);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+router.put('/:id', upload.array('images', 10), async (req, res) => {
+    try {
+      const updates = req.body;
+      if (req.files) {
+        updates.images = req.files.map(file => file.filename);
+      }
+      const mitra = await Mitra.findByIdAndUpdate(req.params.id, updates, { new: true });
+      res.json(mitra);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
 
 // Delete mitra
 router.delete('/:id', async (req, res) => {
