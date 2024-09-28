@@ -5,10 +5,33 @@ const Mitra = require('../models/Mitra');
 
 // Multer config for image upload
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`)
-});
-const upload = multer({ storage });
+    destination: './uploads/',
+    filename: (req, file, cb) => {
+      cb(null, `${Date.now()}-${file.originalname}`);
+    },
+  });
+
+  const upload = multer({
+    storage: storage,
+  }).array('upload', 5); // Max 5 files uploaded at once
+  
+  // Route to handle POST request for Mitra creation with image upload
+  app.post('/api/mitra', upload, async (req, res) => {
+    try {
+      const { files } = req;
+      const filePaths = files.map((file) => file.path);
+      
+      const newMitra = new Mitra({
+        ...req.body,
+        upload: filePaths, // Save file paths in DB
+      });
+  
+      await newMitra.save();
+      res.status(201).json(newMitra);
+    } catch (error) {
+      res.status(500).json({ error: 'Error saving mitra' });
+    }
+  });
 
 // Create mitra
 router.post('/', upload.array('upload', 5), async (req, res) => {
