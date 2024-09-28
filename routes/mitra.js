@@ -6,7 +6,7 @@ const Mitra = require('../models/Mitra');
 const upload = multer({ dest: 'uploads/' }); // Save uploads in the 'uploads' directory
 
 // Create a new Mitra entry
-router.post('/create', upload.array('images', 5), async (req, res) => {
+router.post('/', upload.array('images', 5), async (req, res) => {
   try {
     const { body, files } = req;
     const imagePaths = files.map(file => file.path);
@@ -20,7 +20,7 @@ router.post('/create', upload.array('images', 5), async (req, res) => {
 });
 
 // Fetch all Mitra entries
-router.get('/list', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const mitraList = await Mitra.find();
     res.status(200).json(mitraList);
@@ -30,7 +30,7 @@ router.get('/list', async (req, res) => {
 });
 
 // Update a Mitra entry
-router.put('/edit/:id', upload.array('images', 5), async (req, res) => {
+router.put('/:id', upload.array('images', 5), async (req, res) => {
   try {
     const { body, files } = req;
     const imagePaths = files.map(file => file.path);
@@ -43,7 +43,7 @@ router.put('/edit/:id', upload.array('images', 5), async (req, res) => {
 });
 
 // Delete a Mitra entry
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     await Mitra.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: 'Mitra deleted' });
