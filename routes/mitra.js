@@ -5,33 +5,38 @@ const Mitra = require('../models/Mitra');
 
 // Multer config for image upload
 const storage = multer.diskStorage({
-    destination: './uploads/',
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/'); // Directory to store uploaded files
+    },
     filename: (req, file, cb) => {
-      cb(null, `${Date.now()}-${file.originalname}`);
+      cb(null, Date.now() + path.extname(file.originalname)); // Create unique filename
     },
   });
 
-  const upload = multer({
-    storage: storage,
-  }).array('upload', 5); // Max 5 files uploaded at once
+  const upload = multer({ storage: storage });
+
   
   // Route to handle POST request for Mitra creation with image upload
-  app.post('/api/mitra', upload, async (req, res) => {
+  router.post('/api/mitra', upload.array('upload', 5), async (req, res) => {
     try {
-      const { files } = req;
-      const filePaths = files.map((file) => file.path);
-      
-      const newMitra = new Mitra({
-        ...req.body,
-        upload: filePaths, // Save file paths in DB
-      });
+      // Handle the request here
+      const files = req.files; // Access the uploaded files
+      const body = req.body; // Access the other fields sent in the form
   
-      await newMitra.save();
-      res.status(201).json(newMitra);
+      // Your logic for saving the data to the database goes here
+      
+      res.status(200).json({ message: 'Files uploaded successfully!', files });
     } catch (error) {
-      res.status(500).json({ error: 'Error saving mitra' });
+      console.error(error);
+      res.status(500).json({ message: 'Error uploading files', error });
     }
   });
+
+  const fs = require('fs');
+  const uploadsDir = 'uploads';
+  if (!fs.existsSync(uploadsDir)){
+      fs.mkdirSync(uploadsDir);
+  }
 
 // Create mitra
 router.post('/', upload.array('upload', 5), async (req, res) => {
