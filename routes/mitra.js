@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
   const upload = multer({ storage });
   
   // Route to handle POST request for Mitra creation with image upload
-  app.post('/mitras', upload.array('images', 10), async (req, res) => {
+  router.post('/mitras', upload.array('images', 10), async (req, res) => {
     console.log('Request body:', req.body);
     console.log('Uploaded files:', req.files);
     try {
