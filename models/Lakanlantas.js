@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const MekanikSchema = new mongoose.Schema({
+const LakalantasSchema = new mongoose.Schema({
     tanggalKejadian: {
         type: Date,
         required: true
@@ -76,7 +76,7 @@ const MekanikSchema = new mongoose.Schema({
     tglSelesai: {
         type: Date,
         required: true
-    },
+    }
 });
 
 module.exports = mongoose.model('Lakalantas', LakalantasSchema);
