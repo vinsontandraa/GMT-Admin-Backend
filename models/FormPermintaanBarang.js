@@ -33,7 +33,7 @@ const formPermintaanBarangSchema = new mongoose.Schema({
   approvalStatus: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
 });
 
-FormPermintaanBarangSchema.pre('save', async function(next) {
+formPermintaanBarangSchema.pre('save', async function(next) {
   if (!this.noPO) {
       const lastPO = await this.model('FormPermintaanBarang').findOne({}, {}, { sort: { noPO: -1 } });
       this.noPO = lastPO ? (parseInt(lastPO.noPO) + 1).toString() : '1'; // Convert to string
