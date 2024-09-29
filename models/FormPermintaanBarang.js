@@ -1,7 +1,7 @@
-// models/Sparepart.js
+// models/formPermintaanBarang.js
 const mongoose = require('mongoose');
 
-const sparepartSchema = new mongoose.Schema({
+const formPermintaanBarangSchema = new mongoose.Schema({
   no: { type: String, required: true },
   tanggal: { type: Date, required: true },
   noForm: { type: String, required: true },
@@ -30,4 +30,4 @@ const sparepartSchema = new mongoose.Schema({
   noPO: { type: String }
 });
 
-module.exports = mongoose.model('Sparepart', sparepartSchema);
+module.exports = mongoose.model('formPermintaanBarang', formPermintaanBarangSchema);
