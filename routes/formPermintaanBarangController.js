@@ -5,6 +5,15 @@ const FormPermintaanBarang = require('../models/FormPermintaanBarang');
 const FormPO = require('../models/formPOModel');
 const Sparepart = require('../models/Sparepart'); // Include the Sparepart model
 
+const getNextSequence = async () => {
+    const sequence = await Sequence.findOneAndUpdate(
+        { name: "FormPermintaanBarang" },
+        { $inc: { value: 1 } },
+        { new: true, upsert: true } // Create if not exists
+    );
+    return sequence.value;
+};
+
 // Get all formPermintaanBarangs
 router.get('/', async (req, res) => {
     try {
@@ -29,9 +38,45 @@ router.get('/:id', async (req, res) => {
 
 // Create a new formPermintaanBarang (Admin)
 router.post('/', async (req, res) => {
-    
+
+    const {
+        noPlat,
+        tanggal,
+        kode,
+        namaMitra,
+        noID,
+        tujuanPermintaan,
+        masalah,
+        solusi,
+        diDiagnosaOleh,
+        yaTidak,
+        produk,
+        tipe,
+        satuan,
+        qty
+    } = req.body;
+
     try {
-        const newformPermintaanBarang = new FormPermintaanBarang(req.body);
+        const no = await getNextSequence();
+        const newformPermintaanBarang = new FormPermintaanBarang({
+            tanggal,
+            noForm,
+            no, // Auto-incremented No
+            noPlat,
+            kode,
+            namaMitra,
+            noID,
+            tujuanPermintaan,
+            masalah,
+            solusi,
+            diDiagnosaOleh,
+            yaTidak,
+            produk,
+            tipe,
+            satuan,
+            qty
+        });
+        // const newformPermintaanBarang = new FormPermintaanBarang(req.body);
         await newformPermintaanBarang.save();
         res.status(201).json(newformPermintaanBarang);
     } catch (err) {
