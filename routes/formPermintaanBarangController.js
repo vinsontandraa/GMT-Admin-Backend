@@ -124,7 +124,7 @@ router.delete('/:id', async (req, res) => {
 router.get('/sparepart-data/:produk', async (req, res) => {
     try {
         const { produk } = req.params;
-        const sparepart = await Sparepart.findOne({ NamaProduk: produk });
+        const sparepart = await Sparepart.findOne({ namaProduk: produk });
         if (!sparepart) {
             return res.status(404).json({ error: "Spare part not found" });
         }
