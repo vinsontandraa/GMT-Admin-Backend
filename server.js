@@ -16,6 +16,7 @@ const sparePartRoutes = require('./routes/sparePartController');
 const sparePartPORoutes = require('./routes/sparePartPO');
 const mekanik = require('./routes/mekanik');
 const formPO = require('./routes/formPOController');
+const lakanlantas = require('./models/Lakanlantas');
 
 require('dotenv').config();
 
@@ -43,6 +44,7 @@ app.use("/api/data-surat-kendaraan", dataSuratKendaraan);
 app.use('/api/spareparts', sparePartRoutes);
 app.use('/api/sparepartpo', sparePartPORoutes);
 app.use('/api/mekanik', mekanik);
+app.use('/api/lakalantaas', lakanlantas);
 app.use('/api/form-po', formPO);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
