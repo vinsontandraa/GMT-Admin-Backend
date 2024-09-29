@@ -17,6 +17,7 @@ const sparePartPORoutes = require('./routes/sparePartPO');
 const mekanik = require('./routes/mekanik');
 const formPO = require('./routes/formPOController');
 const sparepartRoutes = require('./routes/sparepart');
+const formRoutes = require('./routes/form');
 
 require('dotenv').config();
 
@@ -46,5 +47,6 @@ app.use('/api/sparepartpo', sparePartPORoutes);
 app.use('/api/mekanik', mekanik);
 app.use('/api/form-po', formPO);
 app.use('/api/sparepart', sparepartRoutes);
+app.use('/api/forms', formRoutes);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
