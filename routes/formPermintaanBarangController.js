@@ -61,7 +61,7 @@ router.post('/', async (req, res) => {
 
     try {
         const no = await getNextSequence();
-        const newformPermintaanBarang = new FormPermintaanBarang({
+        const newformPermintaanBarang = new formPermintaanBarang({
             tanggal,
             noForm,
             no, // Auto-incremented No
