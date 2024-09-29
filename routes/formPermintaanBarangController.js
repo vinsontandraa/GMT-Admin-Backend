@@ -56,6 +56,7 @@ router.post('/', async (req, res) => {
         tipe,
         satuan,
         qty,
+        createdBy
     } = req.body;
 
     try {
