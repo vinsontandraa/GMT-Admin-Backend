@@ -77,7 +77,7 @@ router.post('/', async (req, res) => {
             tipe,
             satuan,
             qty,
-            createdBy: req.user.username, // Assuming you have middleware that attaches the user info
+            createdBy, // Assuming you have middleware that attaches the user info
             approvalStatus: 'pending', // Initial approval status
             firstApprovedBy: null,
             secondApprovedBy: null
