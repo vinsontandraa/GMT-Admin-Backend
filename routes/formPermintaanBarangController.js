@@ -128,7 +128,7 @@ router.get('/sparepart-data/:produk', async (req, res) => {
         if (!sparepart) {
             return res.status(404).json({ error: "Spare part not found" });
         }
-        res.json({ tipe: sparepart.Tipe, satuan: sparepart.satuan });
+        res.json({ tipe: sparepart.tipe, satuan: sparepart.satuan });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
