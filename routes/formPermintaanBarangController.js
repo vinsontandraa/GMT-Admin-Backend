@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
         produk,
         tipe,
         satuan,
-        qty
+        qty,
     } = req.body;
 
     try {
@@ -76,7 +76,11 @@ router.post('/', async (req, res) => {
             produk,
             tipe,
             satuan,
-            qty
+            qty,
+            createdBy: req.user.username, // Assuming you have middleware that attaches the user info
+            approvalStatus: 'pending', // Initial approval status
+            firstApprovedBy: null,
+            secondApprovedBy: null
         });
         // const newformPermintaanBarang = new FormPermintaanBarang(req.body);
         await newformPermintaanBarang.save();
@@ -117,48 +121,46 @@ router.post('/', async (req, res) => {
 // Update a formPermintaanBarang (Supervisor Approval)
 router.put('/:id', async (req, res) => {
     try {
-        const { approved, yaTidakDitinjau, stokBeli, tanggalDitinjau, namaDitinjau, passwordDitinjau, mekanik, noSO, supplier, noPO, status } = req.body;
+        const { username, approvalType } = req.body; // Get username and approval type
         const formPermintaanBarang = await FormPermintaanBarang.findById(req.params.id);
         if (!formPermintaanBarang) return res.status(404).json({ error: 'formPermintaanBarang not found' });
+        if (approvalType === 'first') {
+            if (!formPermintaanBarang.firstApprovedBy) {
+                formPermintaanBarang.firstApprovedBy = username; // First approver
+                formPermintaanBarang.approvalStatus = 'awaiting second approval'; // Change status
+            } else {
+                return res.status(400).json({ error: 'Already first approved' });
+            }
+        } else if (approvalType === 'second') {
+            if (formPermintaanBarang.firstApprovedBy && !formPermintaanBarang.secondApprovedBy) {
+                formPermintaanBarang.secondApprovedBy = username; // Second approver
+                formPermintaanBarang.approvalStatus = 'approved'; // Change status to approved
 
-        if (status === 'approved') {
-            formPermintaanBarang.approved = approved || formPermintaanBarang.approved;
-            formPermintaanBarang.yaTidakDitinjau = yaTidakDitinjau || formPermintaanBarang.yaTidakDitinjau;
-            formPermintaanBarang.stokBeli = stokBeli || formPermintaanBarang.stokBeli;
-            formPermintaanBarang.tanggalDitinjau = tanggalDitinjau || formPermintaanBarang.tanggalDitinjau;
-            formPermintaanBarang.namaDitinjau = namaDitinjau || formPermintaanBarang.namaDitinjau;
-            formPermintaanBarang.passwordDitinjau = passwordDitinjau || formPermintaanBarang.passwordDitinjau;
-            formPermintaanBarang.mekanik = mekanik || formPermintaanBarang.mekanik;
-            formPermintaanBarang.noSO = noSO || formPermintaanBarang.noSO;
-            formPermintaanBarang.supplier = supplier || formPermintaanBarang.supplier;
-            formPermintaanBarang.noPO = noPO || formPermintaanBarang.noPO;
-            formPermintaanBarang.status = 'approved';
-            console.log(formPermintaanBarang.no + "!!!!");
-            console.log(formPermintaanBarang.tanggal + "!!!!");
-
-            const poForm = new FormPO({
-                no: formPermintaanBarang.no,
-                tanggal: formPermintaanBarang.tanggal,
-                noForm: formPermintaanBarang.noForm,
-                noPO: formPermintaanBarang.noPO, // Logic to generate the PO number
-                noPlat: formPermintaanBarang.noPlat,
-                kode: formPermintaanBarang.kode,
-                supplier: 'a',
-                produk: formPermintaanBarang.produk,
-                tipe: formPermintaanBarang.tipe,
-                satuan: formPermintaanBarang.satuan,
-                qty: formPermintaanBarang.qty,
-                upload: 'Upload link or document', // Handle file upload logic
-                merek:'a',
-                qtyKetersediaan: 0,
-                keterangan: 'a'
-             });
-            
-             await poForm.save()
-             .then(() => console.log('POForm saved successfully'))
-             .catch(err => console.error('Failed to save POForm:', err));
+                // Create the FormPO upon full approval
+                const poForm = new FormPO({
+                    no: formPermintaanBarang.no,
+                    tanggal: formPermintaanBarang.tanggal,
+                    noForm: formPermintaanBarang.noForm,
+                    noPO: formPermintaanBarang.noPO, // Logic to generate the PO number
+                    noPlat: formPermintaanBarang.noPlat,
+                    kode: formPermintaanBarang.kode,
+                    supplier: 'a',
+                    produk: formPermintaanBarang.produk,
+                    tipe: formPermintaanBarang.tipe,
+                    satuan: formPermintaanBarang.satuan,
+                    qty: formPermintaanBarang.qty,
+                    upload: 'Upload link or document', // Handle file upload logic
+                    merek: 'a',
+                    qtyKetersediaan: 0,
+                    keterangan: 'a'
+                });
+                
+                await poForm.save();
+            } else {
+                return res.status(400).json({ error: 'First approval is required before second approval' });
+            }
         } else {
-            formPermintaanBarang.status = 'rejected';
+            return res.status(400).json({ error: 'Invalid approval type' });
         }
 
         await formPermintaanBarang.save();
