@@ -16,6 +16,7 @@ const formPermintaanBarangRoutes = require('./routes/formPermintaanBarangControl
 const sparePartPORoutes = require('./routes/sparePartPO');
 const mekanik = require('./routes/mekanik');
 const formPO = require('./routes/formPOController');
+const sparepartRoutes = require('./routes/sparepart');
 
 require('dotenv').config();
 
@@ -44,5 +45,6 @@ app.use('/api/formPermintaanBarangs', formPermintaanBarangRoutes);
 app.use('/api/sparepartpo', sparePartPORoutes);
 app.use('/api/mekanik', mekanik);
 app.use('/api/form-po', formPO);
+app.use('/api/sparepart', sparepartRoutes);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
