@@ -4,6 +4,7 @@ const router = express.Router();
 const FormPermintaanBarang = require('../models/FormPermintaanBarang');
 const FormPO = require('../models/formPOModel');
 const Sparepart = require('../models/Sparepart'); // Include the Sparepart model
+const Sequence = require('../models/sequence'); // New model for auto-incrementing
 
 const getNextSequence = async () => {
     const sequence = await Sequence.findOneAndUpdate(
