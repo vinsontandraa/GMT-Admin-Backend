@@ -17,6 +17,7 @@ router.get('/', async (req, res) => {
 
 // Get formPermintaanBarang by ID
 router.get('/:id', async (req, res) => {
+    
     try {
         const formPermintaanBarang = await FormPermintaanBarang.findById(req.params.id);
         if (!formPermintaanBarang) return res.status(404).json({ error: 'formPermintaanBarang not found' });
@@ -28,6 +29,7 @@ router.get('/:id', async (req, res) => {
 
 // Create a new formPermintaanBarang (Admin)
 router.post('/', async (req, res) => {
+    
     try {
         const newformPermintaanBarang = new FormPermintaanBarang(req.body);
         await newformPermintaanBarang.save();
@@ -36,6 +38,34 @@ router.post('/', async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 });
+
+// // Create a new formPermintaanBarang (Admin)
+// router.post('/', async (req, res) => {
+//     const { platId, ...formData } = req.body;
+
+//     try {
+//          // Check if a Form exists with the given Plat ID
+//          let form = await Form.findOne({ platId });
+
+//          if (!form) {
+//              // If the Form doesn't exist, create a new one
+//              form = new Form({
+//                  formId: generateFormId(),
+//                  platId,
+//              });
+//              await form.save();
+//          }
+ 
+//          // Add "NoForm" to FormPermintaanBarang data
+//          formData.noForm = form.formId;
+
+//         const newformPermintaanBarang = new FormPermintaanBarang(formData);
+//         await newformPermintaanBarang.save();
+//         res.status(201).json(newformPermintaanBarang);
+//     } catch (err) {
+//         res.status(400).json({ error: err.message });
+//     }
+// });
 
 // Update a formPermintaanBarang (Supervisor Approval)
 router.put('/:id', async (req, res) => {
