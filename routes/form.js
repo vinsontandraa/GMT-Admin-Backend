@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Form = require('../models/formModel');
+const Form = require('../models/Form');
 const FormPermintaanBarang = require('../models/FormPermintaanBarang');
 
 // Function to generate a unique Form Id
