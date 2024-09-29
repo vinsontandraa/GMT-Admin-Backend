@@ -12,11 +12,13 @@ const mutasiKasBankRoutes = require("./routes/mutasiKasBank");
 const mutasiKasBankListGiro = require("./routes/mutasiKasBankListGiro");
 const mutasiKasBankPiutang = require("./routes/mutasiKasPiutang");
 const dataSuratKendaraan = require("./routes/dataSuratKendaraan");
-const sparePartRoutes = require('./routes/sparePartController');
+const formPermintaanBarangRoutes = require('./routes/formPermintaanBarangController');
 const sparePartPORoutes = require('./routes/sparePartPO');
 const mekanik = require('./routes/mekanik');
 const formPO = require('./routes/formPOController');
 const lakanlantas = require('./models/Lakanlantas');
+const sparepartRoutes = require('./routes/sparepart');
+const formRoutes = require('./routes/form');
 
 require('dotenv').config();
 
@@ -41,10 +43,12 @@ app.use("/api/mutasi-kas-bank", mutasiKasBankRoutes);
 app.use("/api/mutasi-kas-bank-piutang", mutasiKasBankPiutang);
 app.use("/api/mutasi-kas-bank-list-giro", mutasiKasBankListGiro);
 app.use("/api/data-surat-kendaraan", dataSuratKendaraan);
-app.use('/api/spareparts', sparePartRoutes);
+app.use('/api/formPermintaanBarangs', formPermintaanBarangRoutes);
 app.use('/api/sparepartpo', sparePartPORoutes);
 app.use('/api/mekanik', mekanik);
 app.use('/api/lakalantaas', lakanlantas);
 app.use('/api/form-po', formPO);
+app.use('/api/sparepart', sparepartRoutes);
+app.use('/api/forms', formRoutes);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));

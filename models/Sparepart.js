@@ -1,33 +1,14 @@
-// models/Sparepart.js
 const mongoose = require('mongoose');
 
 const sparepartSchema = new mongoose.Schema({
-  no: { type: String, required: true },
-  tanggal: { type: Date, required: true },
-  noForm: { type: String, required: true },
-  noPlat: { type: String, required: true },
-  kode: { type: String, required: true },
-  namaMitra: { type: String, required: true },
-  noID: { type: String, required: true },
-  tujuanPermintaan: { type: String, required: true },
-  masalah: { type: String, required: true },
-  solusi: { type: String, required: true },
-  diDiagnosaOleh: { type: String, required: true },
-  yaTidak: { type: String, required: true },
-  produk: { type: String, required: true },
-  tipe: { type: String, required: true },
-  satuan: { type: String, required: true },
-  qty: { type: Number, required: true },
-  status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
-  yaTidakDitinjau: { type: String },
-  stokBeli: { type: String },
-  tanggalDitinjau: { type: Date },
-  namaDitinjau: { type: String },
-  passwordDitinjau: { type: String },
-  mekanik: { type: String },
-  noSO: { type: String },
-  supplier: { type: String },
-  noPO: { type: String }
+    noId: { type: String, required: true, unique: true }, // Auto-generated
+    namaProduk: { type: String, required: true },
+    tipe: { type: String, required: true },
+    satuan: { type: String, required: true },
+    jumlah: { type: Number, required: true },
+    supplier: { type: String, required: true },
+    merek: { type: String, required: true },
+    createDate: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('Sparepart', sparepartSchema);
