@@ -43,19 +43,19 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/authenticateUser', async (req, res) => {
-    const { username, password } = req.body;
+    const { name, password } = req.body;
 
     try {
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ name });
 
         if (!user) {
-            return res.status(401).json({ success: false, message: 'Invalid username or password' });
+            return res.status(404).json({ success: false, message: 'Invalid username or password' });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         
         if (!isMatch) {
-            return res.status(401).json({ success: false, message: 'Invalid username or password' });
+            return res.status(404).json({ success: false, message: 'Invalid username or password' });
         }
 
         // Authentication successful
