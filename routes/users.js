@@ -16,11 +16,15 @@ router.get('/', authMiddleware, async (req, res) => {
 // GET current user
 router.get('/current', authMiddleware, async (req, res) => {
     try {
-        const user = req.user; // Now we use the user set by the authMiddleware
+       console.log("Current user request:", req.user);
+    
+       const user = await User.findById(req.user.id).select('-password'); // Exclude password
+
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({ error: 'User not found' });
         }
-        res.json(user);
+
+        res.json(user); 
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
