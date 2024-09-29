@@ -1,14 +1,14 @@
 // routes/formPermintaanBarangs.js
 const express = require('express');
 const router = express.Router();
-const formPermintaanBarang = require('../models/FormPermintaanBarang');
+const FormPermintaanBarang = require('../models/FormPermintaanBarang');
 const FormPO = require('../models/formPOModel');
-const formPermintaanBarang = "";
+
 // Get all formPermintaanBarangs
 router.get('/', async (req, res) => {
     try {
-        formPermintaanBarangs = await formPermintaanBarang.find();
-        res.json(formPermintaanBarangs);
+        const formPermintaanBarang = await FormPermintaanBarang.find();
+        res.json(formPermintaanBarang);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 // Get formPermintaanBarang by ID
 router.get('/:id', async (req, res) => {
     try {
-        formPermintaanBarang = await formPermintaanBarang.findById(req.params.id);
+        const formPermintaanBarang = await FormPermintaanBarang.findById(req.params.id);
         if (!formPermintaanBarang) return res.status(404).json({ error: 'formPermintaanBarang not found' });
         res.json(formPermintaanBarang);
     } catch (err) {
@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
 // Create a new formPermintaanBarang (Admin)
 router.post('/', async (req, res) => {
     try {
-        const newformPermintaanBarang = new formPermintaanBarang(req.body);
+        const newformPermintaanBarang = new FormPermintaanBarang(req.body);
         await newformPermintaanBarang.save();
         res.status(201).json(newformPermintaanBarang);
     } catch (err) {
@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const { approved, yaTidakDitinjau, stokBeli, tanggalDitinjau, namaDitinjau, passwordDitinjau, mekanik, noSO, supplier, noPO, status } = req.body;
-        formPermintaanBarang = await formPermintaanBarang.findById(req.params.id);
+        const formPermintaanBarang = await FormPermintaanBarang.findById(req.params.id);
         if (!formPermintaanBarang) return res.status(404).json({ error: 'formPermintaanBarang not found' });
 
         if (status === 'approved') {
@@ -92,7 +92,7 @@ router.put('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
-        formPermintaanBarang = await formPermintaanBarang.findById(req.params.id);
+        const formPermintaanBarang = await FormPermintaanBarang.findById(req.params.id);
         if (!formPermintaanBarang) return res.status(404).json({ error: 'Task not found' });
 
         // Update fields based on role
@@ -101,7 +101,7 @@ router.put('/:id', async (req, res) => {
             status: req.body.status || formPermintaanBarang.status
         };
 
-        const updatedformPermintaanBarang = await formPermintaanBarang.findByIdAndUpdate(req.params.id, updatedData, { new: true });
+        const updatedformPermintaanBarang = await FormPermintaanBarang.findByIdAndUpdate(req.params.id, updatedData, { new: true });
         res.json(updatedformPermintaanBarang);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -111,7 +111,7 @@ router.put('/:id', async (req, res) => {
 // Delete a formPermintaanBarang
 router.delete('/:id', async (req, res) => {
     try {
-        formPermintaanBarang = await formPermintaanBarang.findByIdAndDelete(req.params.id);
+        const formPermintaanBarang = await FormPermintaanBarang.findByIdAndDelete(req.params.id);
         if (!formPermintaanBarang) return res.status(404).json({ error: 'formPermintaanBarang not found' });
         res.json({ message: 'formPermintaanBarang deleted' });
     } catch (err) {
