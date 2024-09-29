@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const FormPermintaanBarang = require('../models/FormPermintaanBarang');
 const FormPO = require('../models/formPOModel');
+const Sparepart = require('../models/Sparepart'); // Include the Sparepart model
 
 // Get all formPermintaanBarangs
 router.get('/', async (req, res) => {
@@ -114,6 +115,20 @@ router.delete('/:id', async (req, res) => {
         const formPermintaanBarang = await FormPermintaanBarang.findByIdAndDelete(req.params.id);
         if (!formPermintaanBarang) return res.status(404).json({ error: 'formPermintaanBarang not found' });
         res.json({ message: 'formPermintaanBarang deleted' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Route to get sparepart data based on 'produk' (auto-fill functionality)
+router.get('/sparepart-data/:produk', async (req, res) => {
+    try {
+        const { produk } = req.params;
+        const sparepart = await Sparepart.findOne({ NamaProduk: produk });
+        if (!sparepart) {
+            return res.status(404).json({ error: "Spare part not found" });
+        }
+        res.json({ tipe: sparepart.Tipe, satuan: sparepart.satuan });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
