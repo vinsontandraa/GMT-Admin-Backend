@@ -19,6 +19,7 @@ const formPO = require('./routes/formPOController');
 const lakanlantas = require('./models/Lakanlantas');
 const sparepartRoutes = require('./routes/sparepart');
 const formRoutes = require('./routes/form');
+const formRO = require('./routes/formROPembelianBarang');
 
 require('dotenv').config();
 
@@ -50,5 +51,6 @@ app.use('/api/lakalantaas', lakanlantas);
 app.use('/api/form-po', formPO);
 app.use('/api/sparepart', sparepartRoutes);
 app.use('/api/forms', formRoutes);
+app.use('/api/form-ro', formRO);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));

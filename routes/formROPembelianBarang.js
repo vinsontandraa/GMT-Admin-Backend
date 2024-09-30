@@ -42,4 +42,14 @@ const generateNoRO = () => {
     return `RO-${roCounter.toString().padStart(4, '0')}`; // RO number padded to 4 digits
 };
 
+// Get all Form PO
+router.get('/', async (req, res) => {
+    try {
+      const formROs = await FormROPembelianBarang.find();
+      res.json(formROs);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
 module.exports = router;
