@@ -61,29 +61,29 @@ router.post('/', async (req, res) => {
 
     try {
         const no = await getNextSequence();
-        const newformPermintaanBarang = new FormPermintaanBarang({
-            tanggal,
-            noForm,
-            no, // Auto-incremented No
-            noPlat,
-            kode,
-            namaMitra,
-            noID,
-            tujuanPermintaan,
-            masalah,
-            solusi,
-            diDiagnosaOleh,
-            yaTidak,
-            produk,
-            tipe,
-            satuan,
-            qty,
-            createdBy, // Assuming you have middleware that attaches the user info
-            approvalStatus: 'pending', // Initial approval status
-            firstApprovedBy: null,
-            secondApprovedBy: null
-        });
-        // const newformPermintaanBarang = new FormPermintaanBarang(req.body);
+        // const newformPermintaanBarang = new formPermintaanBarang({
+        //     tanggal,
+        //     noForm,
+        //     no, // Auto-incremented No
+        //     noPlat,
+        //     kode,
+        //     namaMitra,
+        //     noID,
+        //     tujuanPermintaan,
+        //     masalah,
+        //     solusi,
+        //     diDiagnosaOleh,
+        //     yaTidak,
+        //     produk,
+        //     tipe,
+        //     satuan,
+        //     qty,
+        //     createdBy, // Assuming you have middleware that attaches the user info
+        //     approvalStatus: 'pending', // Initial approval status
+        //     firstApprovedBy: null,
+        //     secondApprovedBy: null
+        // });
+        const newformPermintaanBarang = new FormPermintaanBarang(req.body);
         await newformPermintaanBarang.save();
         res.status(201).json(newformPermintaanBarang);
     } catch (err) {

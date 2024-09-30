@@ -1,7 +1,7 @@
 // models/formPermintaanBarang.js
 const mongoose = require('mongoose');
 
-const formPermintaanBarangSchema = new mongoose.Schema({
+const FormPermintaanBarangSchema = new mongoose.Schema({
   no: { type: String, required: true },
   tanggal: { type: Date, required: true },
   noForm: { type: String, required: true },
@@ -48,4 +48,4 @@ formPermintaanBarangSchema.pre('save', async function(next) {
   next();
 });
 
-module.exports = mongoose.model('formPermintaanBarang', formPermintaanBarangSchema);
+module.exports = mongoose.model('FormPermintaanBarang', FormPermintaanBarangSchema);
