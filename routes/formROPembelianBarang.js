@@ -4,6 +4,15 @@ const express = require('express');
 const router = express.Router();
 const FormROPembelianBarang = require('../models/FormROPembelianBarang'); // Add your model
 
+const getNextSequenceValue = async (sequenceName) => {
+    const sequence = await Sequence.findOneAndUpdate(
+      { name: sequenceName },  // Find the sequence by name
+      { $inc: { value: 1 } },  // Increment the value by 1
+      { new: true, upsert: true } // Return the updated document, and create if it doesn't exist
+    );
+    return sequence.value;
+  };
+
 // Create new Form RO entry
 router.post('/generateFromPO', async (req, res) => {
     try {
@@ -11,8 +20,10 @@ router.post('/generateFromPO', async (req, res) => {
 
         // Auto-generate No RO
         const noRO = generateNoRO();
+        const newId = await getNextSequenceValue('formROPembelianBarangId');
 
         const newFormRO = new FormROPembelianBarang({
+            no: newId,  // Auto-incrementing ID
             noPO,
             tanggal,
             supplier,

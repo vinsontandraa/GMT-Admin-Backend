@@ -3,7 +3,10 @@
 const mongoose = require('mongoose');
 
 const FormROPembelianBarangSchema = new mongoose.Schema({
-    no: { type: int, required: true },
+    no: {
+        type: Number,  // Auto-incrementing field
+        unique: true
+      },v
     noPO: { type: String, required: true },
     tanggal: { type: Date, required: true },
     supplier: { type: String, required: true },
