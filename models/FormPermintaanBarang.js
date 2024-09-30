@@ -30,7 +30,7 @@ const FormPermintaanBarangSchema = new mongoose.Schema({
   createdBy: { type: String, required: true }, // Added field for creator username
   firstApprovedBy: { type: String, default: null }, // First approver username
   secondApprovedBy: { type: String, default: null }, // Second approver username
-  approvalStatus: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
+  approvalStatus: { type: String, enum: ['pending', 'approved', 'rejected','awaiting second approval'], default: 'pending' },
 });
 
 FormPermintaanBarangSchema.pre('save', async function(next) {
