@@ -37,19 +37,19 @@ const LakalantasSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    rpRinicinaBiayaLaka: {
+    rpRincianBiayaLaka: {
         type: Number,
         required: true
     },
-    keteranganRinicinaBiayaLaka: {
+    keteranganRincianBiayaLaka: {
         type: String,
         required: true
     },
-    noRefRinicinaBiayaLaka: {
+    noRefRincianBiayaLaka: {
         type: Number,
         required: true
     },
-    tanggalRinicinaBiayaLaka: {
+    tanggalRincianBiayaLaka: {
         type: Date,
         required: true
     },
