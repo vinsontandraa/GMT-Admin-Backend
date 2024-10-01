@@ -13,11 +13,11 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Get all Lakalantass
+// Get all Lakalantases
 router.get('/', async (req, res) => {
     try {
-        const Lakalantass = await Lakalantas.find();
-        res.json(Lakalantass);
+        const Lakalantases = await Lakalantas.find();
+        res.json(Lakalantases);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

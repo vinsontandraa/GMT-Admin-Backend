@@ -16,7 +16,7 @@ const formPermintaanBarangRoutes = require('./routes/formPermintaanBarangControl
 const sparePartPORoutes = require('./routes/sparePartPO');
 const mekanik = require('./routes/mekanik');
 const formPO = require('./routes/formPOController');
-const lakanlantas = require('./models/Lakanlantas');
+const lakalantas = require('./models/Lakalantas');
 const sparepartRoutes = require('./routes/sparepart');
 const formRoutes = require('./routes/form');
 const formRO = require('./routes/formROPembelianBarang');
@@ -47,7 +47,7 @@ app.use("/api/data-surat-kendaraan", dataSuratKendaraan);
 app.use('/api/formPermintaanBarangs', formPermintaanBarangRoutes);
 app.use('/api/sparepartpo', sparePartPORoutes);
 app.use('/api/mekanik', mekanik);
-app.use('/api/lakalantaas', lakanlantas);
+app.use('/api/lakalantas', lakalantas);
 app.use('/api/form-po', formPO);
 app.use('/api/sparepart', sparepartRoutes);
 app.use('/api/forms', formRoutes);
